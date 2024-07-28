@@ -1,0 +1,224 @@
+1) Create a program that reads the length and width of a farmer’s field from the user in 
+feet. Display the area of the field in acres. 
+Hint: There are 43,560 square feet in an acre. 
+
+length_feet = float(input("Enter the length of the field in feet: "))
+width_feet = float(input("Enter the width of the field in feet: "))
+area_sq_feet = length_feet * width_feet
+area_acres = area_sq_feet / 43560
+print(f"The area of the field is {area_acres:.2f} acres.")
+
+------------------------------------------------------------------------------------------------------------------
+
+2) Write a program that asks the user to enter the width and length of a room. Once the values 
+have been read, your program should compute and display the area of the room. The length 
+and the width will be entered as floating point numbers. Include units in your prompt and output 
+message; either feet or meters, depending on which unit you are more comfortable working 
+with.
+
+length = float(input("Enter the length of the room in feet: "))
+width = float(input("Enter the width of the room in feet: "))
+area = length * width
+print(f"The area of the room is {area:.2f} square feet.")
+
+------------------------------------------------------------------------------------------------------------------
+
+
+3) Python includes a library of functions for working with time, including a function called 
+asctime in the time module. It reads the current time from the computer’s internal clock and 
+returns it in a human-readable format. Write a program that displays the current time and date. 
+Your program will not require any input from the user
+
+import time
+current_time = time.asctime()
+print(f"The current time and date is: {current_time}")
+
+------------------------------------------------------------------------------------------------------------------
+
+4) Create a program that reads the following10 data values (integers) and displays them in 
+sorted order (from smallest to largest). Use the min and max functions to find the smallest and 
+largest values. Also compute the 5 number summary for the data. Find the IQR value. Also 
+find the outliers if any.  
+                Data: 16, 09, 14, 11, 13, 06, 18, 15, 10, 12. 
+
+
+data = [16, 9, 14, 11, 13, 6, 18, 15, 10, 12]
+
+sorted_data = sorted(data)
+
+min_value = min(sorted_data)
+max_value = max(sorted_data)
+
+def median(lst):
+    n = len(lst)
+    mid = n // 2
+    if n % 2 == 0:
+        return (lst[mid - 1] + lst[mid]) / 2
+    else:
+        return lst[mid]
+
+
+Q1 = median(sorted_data[:len(sorted_data)//2])
+Q3 = median(sorted_data[(len(sorted_data)+1)//2:])
+median_value = median(sorted_data)
+IQR = Q3 - Q1
+
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+outliers = [x for x in sorted_data if x < lower_bound or x > upper_bound]
+
+print(f"Sorted data: {sorted_data}")
+print(f"Minimum value: {min_value}")
+print(f"Maximum value: {max_value}")
+print(f"5-number summary:")
+print(f"  Minimum: {min_value}")
+print(f"  Q1: {Q1}")
+print(f"  Median: {median_value}")
+print(f"  Q3: {Q3}")
+print(f"  Maximum: {max_value}")
+print(f"IQR: {IQR}")
+print(f"Outliers: {outliers}")
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+5) Create a program that reads a letter of the alphabet from the user. If the user enters a, e, i, o 
+or u then your program should display a message indicating that the entered letter is a vowel. 
+If the user enters y then your program should display a message indicating that sometimes y is 
+a vowel, and sometimes y is a consonant. Otherwise your program should display a message 
+indicating that the letter is a consonant. 
+
+letter = input("Enter a letter of the alphabet: ").lower()
+
+if letter in 'aeiou':
+    print("The entered letter is a vowel.")
+elif letter == 'y':
+    print("Sometimes 'y' is a vowel, and sometimes 'y' is a consonant.")
+else:
+    print("The entered letter is a consonant.")
+
+
+---------------------------------------------------------------------------------------------------------------------
+6) The following table lists the sound level in decibels for several common noises. 
+ 
+Write a program that reads a sound level in decibels from the user. If the user enters a decibel 
+level that matches one of the noises in the table then your program should display a message 
+containing only that noise. If the user enters a number of decibels between the noises listed 
+then your program should display a message indicating which noises the level is between. 
+Ensure that your program also generates reasonable output for a value smaller than the quietest 
+noise in the table, and for a value larger than the loudest noise in the table. 
+
+# Define the decibel levels for various noises
+noises = {
+    130: "jackhammer",
+    106: "gas lawnmower",
+    70: "alarm clock",
+    40: "quiet room"
+}
+
+# Read the decibel level from the user
+try:
+    decibels = float(input("Enter the sound level in decibels: "))
+
+    # Check if the decibel level matches one of the known noises
+    if decibels in noises:
+        print(f"The noise is: {noises[decibels]}")
+    else:
+        # Determine which noises the level is between
+        lower_noise = None
+        upper_noise = None
+        
+        for level in sorted(noises.keys()):
+            if decibels < level:
+                upper_noise = noises[level]
+                if lower_noise is not None:
+                    break
+            else:
+                lower_noise = noises[level]
+
+        # Display appropriate message based on the decibel level
+        if lower_noise is None and upper_noise is None:
+            print("The decibel level is out of range (lower than the quietest noise).")
+        elif lower_noise is None:
+            print(f"The decibel level is louder than the loudest noise ({list(noises.values())[-1]}).")
+        elif upper_noise is None:
+            print(f"The decibel level is quieter than the quietest noise ({list(noises.values())[0]}).")
+        else:
+            print(f"The decibel level is between {lower_noise} and {upper_noise}.")
+except ValueError:
+    print("Invalid input. Please enter a valid number.")
+
+--------------------------------------------------------------------------------------------------------------------
+
+7) The marks obtained by 10 students in a class test were as follows: 
+                                         38, 41, 36, 31, 45, 38, 27, 32, 29, 39 
+Find: 
+      (a) The mean of their marks 
+      (b) The mean of their marks when the marks of each student are increased by 2 
+      (c) The mean of their marks when one mark is deducted from marks of each student 
+      (d) The mean of their marks when the marks of each student halved
+
+marks = [38, 41, 36, 31, 45, 38, 27, 32, 29, 39]
+
+# Calculate mean
+mean = sum(marks) / len(marks)
+print(f"The mean of their marks is: {mean:.2f}")
+
+# Mean when each mark is increased by 2
+increase = 2
+new_mean_increased = mean + increase
+print(f"The mean of their marks when each mark is increased by 2 is: {new_mean_increased:.2f}")
+
+# Mean when each mark is decreased by 1
+decrease = 1
+new_mean_decreased = mean - decrease
+print(f"The mean of their marks when one mark is deducted from each student is: {new_mean_decreased:.2f}")
+
+# Mean when each mark is halved
+halved_mean = mean / 2
+print(f"The mean of their marks when each mark is halved is: {halved_mean:.2f}")
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+8) When analysing data collected as part of a science experiment it may be desirable to remove 
+the most extreme values before performing other calculations. Write a function that takes a list 
+of values and an non-negative integer, n, as its parameters. The function should create a new 
+copy of the list with the n largest elements and the n smallest elements removed. Then it should 
+return the new copy of the list as the function’s only result. The order of the elements in the 
+returned list does not have to match the order of the elements in the original list. 
+ 
+Your function should read a list of numbers from the user and remove the two largest and two 
+smallest values from it. Display the list with the outliers removed, followed by the original list. 
+Your program should generate an appropriate error message if the user enters less than 4 values. 
+
+def remove_extremes(values, n):
+    if len(values) < 2 * n:
+        return "Error: The list must have at least 2*n elements."
+    sorted_values = sorted(values)
+    return sorted_values[n:-n]
+
+def main():
+    # Read list of numbers from the user
+    input_values = input("Enter a list of numbers separated by spaces: ").split()
+    values = list(map(float, input_values))
+    
+    # Read the value of n from the user
+    n = int(input("Enter the number of largest and smallest values to remove: "))
+    
+    if n < 0:
+        print("Error: The number of elements to remove must be non-negative.")
+        return
+
+    result = remove_extremes(values, n)
+    
+    if isinstance(result, str):  # If result is an error message
+        print(result)
+    else:
+        print(f"List with {n} largest and {n} smallest values removed: {result}")
+        print(f"Original list: {values}")
+
+if __name__ == "__main__":
+    main()
+
